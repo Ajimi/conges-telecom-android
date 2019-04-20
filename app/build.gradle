@@ -40,6 +40,7 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
 
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     kapt "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
     implementation "androidx.appcompat:appcompat:$rootProject.supportLibraryVersion"

@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.telecom.conges">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- This permissions are neccessary for broadcast receiver -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- This permissions are neccessary for broadcast receiver -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.account.AccountActivity"></activity>
         <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.MainActivity"></activity>
+        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.history.HistoryActivity" />
+        <activity android:name=".ui.request.RequestActivity" />
     </application>
 
 </manifest>
