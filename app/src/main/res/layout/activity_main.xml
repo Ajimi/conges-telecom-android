@@ -170,13 +170,13 @@
             android:layout_height="190dp"
             android:layout_margin="10dp"
             android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="handleClick">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:onClick="handleClick"
                 android:orientation="vertical">
 
                 <ImageView
