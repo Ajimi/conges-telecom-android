@@ -3,7 +3,11 @@ package com.telecom.conges.di
 import android.preference.PreferenceManager
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.telecom.conges.data.AuthService
+import com.telecom.conges.data.services.AuthenticationService
+import com.telecom.conges.data.services.LoginLocalRepository
+import com.telecom.conges.ui.login.LoginViewModel
 import okhttp3.OkHttpClient
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,6 +17,10 @@ val myModule = module {
     single { PreferenceManager.getDefaultSharedPreferences(get()) }
     single { getOkHttpClient() }
     single { getRetrofit(get()) }
+    single { getAuthService(get()) }
+    single { LoginLocalRepository(get()) }
+    single { AuthenticationService(get(), get()) }
+    viewModel { LoginViewModel(get()) }
 
 }
 
@@ -33,4 +41,4 @@ private fun getRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder
     .build()
 
 
-private fun getLoginService(retrofit: Retrofit): AuthService = retrofit.create(AuthService::class.java)
+private fun getAuthService(retrofit: Retrofit): AuthService = retrofit.create(AuthService::class.java)
