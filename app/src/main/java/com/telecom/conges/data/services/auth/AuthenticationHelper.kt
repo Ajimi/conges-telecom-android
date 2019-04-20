@@ -1,15 +1,14 @@
-package com.telecom.conges.data.services
+package com.telecom.conges.data.services.auth
 
 import android.util.Log
 import com.auth0.android.jwt.JWT
-import com.telecom.conges.data.AuthService
-import com.telecom.conges.data.LoginDTO
+import com.telecom.conges.data.Result
+import com.telecom.conges.data.models.LoginDTO
+import com.telecom.conges.data.models.User
 import com.telecom.conges.extensions.safeApiCall
 import java.io.IOException
-import com.telecom.conges.data.Result;
-import com.telecom.conges.data.models.User
 
-class AuthenticationService(
+class AuthenticationHelper(
     private val auth: AuthService,
     private val loginLocalRepository: LoginLocalRepository
 ) {

@@ -8,8 +8,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.telecom.conges.R
 import com.telecom.conges.ui.account.AccountActivity
-import com.telecom.conges.ui.history.HistoryActivity
 import com.telecom.conges.ui.request.RequestActivity
+import com.telecom.conges.ui.request.history.HistoriesActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,14 +21,14 @@ class MainActivity : AppCompatActivity() {
     fun handleClick(view: View) {
         when (view.id) {
             R.id.historique -> {
-                HistoryActivity.starterIntent(this@MainActivity)
+                startActivity(HistoriesActivity.starterIntent(this@MainActivity))
             }
             R.id.request -> {
-                RequestActivity.starterIntent(this@MainActivity)
+                startActivity(RequestActivity.starterIntent(this@MainActivity))
 
             }
             R.id.account -> {
-                AccountActivity.starterIntent(this@MainActivity)
+                startActivity(AccountActivity.starterIntent(this@MainActivity))
 
             }
             else -> {

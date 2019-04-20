@@ -7,12 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.esprit.core.extensions.UiState
 import com.esprit.core.extensions.emitUiState
 import com.telecom.conges.data.Result
-import com.telecom.conges.data.services.AuthenticationService
+import com.telecom.conges.data.services.auth.AuthenticationHelper
 import com.telecom.conges.util.Event
 import kotlinx.coroutines.*
 
 class LoginViewModel(
-    private val authService: AuthenticationService
+    private val authHelper: AuthenticationHelper
 ) : ViewModel() {
 
 
@@ -42,7 +42,7 @@ class LoginViewModel(
     private fun launchLogin(username: String, password: String) = uiScope.launch(Dispatchers.IO) {
         withContext(Dispatchers.Main) { _dialogState.value = Event(true) }
 
-        val result = authService.login(username, password)
+        val result = authHelper.login(username, password)
 
         if (result is Result.Success) {
             withContext(Dispatchers.Main) {

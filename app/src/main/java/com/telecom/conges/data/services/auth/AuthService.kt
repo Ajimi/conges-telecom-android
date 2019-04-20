@@ -1,6 +1,7 @@
-package com.telecom.conges.data
+package com.telecom.conges.data.services.auth
 
 import com.telecom.conges.data.models.AccessToken
+import com.telecom.conges.data.models.LoginDTO
 import com.telecom.conges.data.models.User
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
@@ -15,6 +16,3 @@ interface AuthService {
     @Headers("Accept: application/json")
     fun get(@Path("id") id: String): Deferred<Response<User>>
 }
-
-
-data class LoginDTO(val username: String, val password: String) {}

@@ -1,4 +1,4 @@
-package com.telecom.conges.data.services
+package com.telecom.conges.data.services.auth
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
