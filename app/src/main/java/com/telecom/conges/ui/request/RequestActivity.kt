@@ -18,6 +18,7 @@ import com.esprit.core.extensions.observeUIState
 import com.telecom.conges.R
 import com.telecom.conges.data.models.Request
 import com.telecom.conges.extensions.toast
+import com.telecom.conges.util.State
 import com.telecom.conges.util.Tools
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.activity_request.*
@@ -88,12 +89,15 @@ class RequestActivity : AppCompatActivity() {
             setText(Tools.getFormattedDateShort(currentCalender.timeInMillis))
         }
 
+        bt_end_date.apply {
+            setText(Tools.getFormattedDateShort(currentCalender.timeInMillis))
+        }
+
         confirm.setOnClickListener {
             if (selectedButton != null && selectedButton?.isSelected == true) {
                 val startDate = Tools.getDateShort(bt_start_date.text.toString())
                 val endDate = Tools.getDateShort(bt_end_date.text.toString())
-                val request = Request(endDate.toString(), startDate.toString(), 0, false)
-                requestViewModel.createRequest(request)
+                sendRequest(selectedButton?.text.toString(), startDate.toString(), endDate.toString())
             } else {
                 toast("S'il vous selectioner une raison")
             }
@@ -109,10 +113,15 @@ class RequestActivity : AppCompatActivity() {
         }
     }
 
+    private fun sendRequest(reason: String, startDate: String, endDate: String) {
+        val request = Request(endDate, startDate, 0, reason, State.WAITING.name, false)
+        requestViewModel.createRequest(request)
+    }
+
     private fun updateEndDate(days: Number) {
-        val date = bt_start_date.text
+        val startDate = bt_start_date.text
         val time = Calendar.getInstance().apply {
-            time = Tools.getDateShort(date.toString())
+            time = Tools.getDateShort(startDate.toString())
             add(Calendar.DATE, days.toInt())
         }.let {
             Tools.getFormattedDateShort(it.timeInMillis)
@@ -124,7 +133,7 @@ class RequestActivity : AppCompatActivity() {
     private fun createButton(name: String) = Button(this).apply {
         isSelected = false
         text = name
-        setTextAppearance(getResources().getIdentifier("TextAppearance.AppCompat.Title", "style", getPackageName()))
+        setTextAppearance(resources.getIdentifier("TextAppearance.AppCompat.Title", "style", getPackageName()))
         setTextColor(getColor(com.telecom.conges.R.color.grey_90))
         setOnClickListener {
             btToggleClick(it)

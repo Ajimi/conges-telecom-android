@@ -12,6 +12,8 @@ data class RequestResponse(
     val requests: List<Request>,
     @SerializedName("role")
     val role: String,
+    @SerializedName("solde")
+    val solde: Int,
     @SerializedName("username")
     val username: String
 )

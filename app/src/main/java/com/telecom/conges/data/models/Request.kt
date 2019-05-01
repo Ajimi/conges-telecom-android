@@ -9,6 +9,11 @@ data class Request(
     val dateStart: String,
     @SerializedName("id")
     val id: Int,
+    @SerializedName("reason")
+    val reason: String,
+    @SerializedName("state")
+    val state: String,
     @SerializedName("isApproved")
-    val isApproved: Boolean
+    val isApproved: Boolean,
+    val user: User? = null
 )

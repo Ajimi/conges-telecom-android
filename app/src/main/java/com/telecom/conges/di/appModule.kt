@@ -5,8 +5,12 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.telecom.conges.data.services.auth.AuthService
 import com.telecom.conges.data.services.auth.AuthenticationHelper
 import com.telecom.conges.data.services.auth.LoginLocalRepository
+import com.telecom.conges.data.services.daysoff.DaysOffHelper
+import com.telecom.conges.data.services.daysoff.DaysOffService
 import com.telecom.conges.data.services.request.RequestHelper
 import com.telecom.conges.data.services.request.RequestService
+import com.telecom.conges.ui.calendar.CalendarViewModel
+import com.telecom.conges.ui.ferie.DaysOffViewModel
 import com.telecom.conges.ui.login.LoginViewModel
 import com.telecom.conges.ui.request.RequestViewModel
 import okhttp3.OkHttpClient
@@ -24,13 +28,17 @@ val myModule = module {
 
     single { getAuthService(get()) }
     single { getRequestService(get()) }
+    single { getDaysOffService(get()) }
 
     single { LoginLocalRepository(get()) }
     single { AuthenticationHelper(get(), get()) }
     single { RequestHelper(get()) }
+    single { DaysOffHelper(get()) }
 
     viewModel { LoginViewModel(get()) }
     viewModel { RequestViewModel(get(), get()) }
+    viewModel { DaysOffViewModel(get()) }
+    viewModel { CalendarViewModel(get(), get(), get(), get()) }
 
 }
 
@@ -53,3 +61,4 @@ private fun getRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder
 
 private fun getAuthService(retrofit: Retrofit): AuthService = retrofit.create(AuthService::class.java)
 private fun getRequestService(retrofit: Retrofit): RequestService = retrofit.create(RequestService::class.java)
+private fun getDaysOffService(retrofit: Retrofit): DaysOffService = retrofit.create(DaysOffService::class.java)

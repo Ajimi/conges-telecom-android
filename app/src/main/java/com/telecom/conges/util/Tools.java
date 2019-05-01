@@ -145,6 +145,11 @@ public class Tools {
         return newFormat.format(new Date(dateTime));
     }
 
+    public static String getFormattedSimple(Long dateTime) {
+        SimpleDateFormat newFormat = new SimpleDateFormat("MMM dd");
+        return newFormat.format(new Date(dateTime));
+    }
+
     public static String getFormattedDateSimple(Long dateTime) {
         SimpleDateFormat newFormat = new SimpleDateFormat("MMMM dd, yyyy");
         return newFormat.format(new Date(dateTime));

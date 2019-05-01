@@ -11,6 +11,10 @@ data class RequestRequest(
     val id: Int,
     @SerializedName("isApproved")
     val isApproved: Boolean,
+    @SerializedName("reason")
+    val reason: String,
+    @SerializedName("state")
+    val state: String,
     @SerializedName("userId")
     val userId: String
 )
