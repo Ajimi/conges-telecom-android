@@ -13,10 +13,7 @@ import com.telecom.conges.extensions.toast
 import com.telecom.conges.util.Tools
 import kotlinx.android.synthetic.main.activity_calendar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
-import ru.cleverpumpkin.calendar.utils.getColorInt
-import java.util.*
 
 class CalendarActivity : AppCompatActivity() {
 
@@ -68,49 +65,6 @@ class CalendarActivity : AppCompatActivity() {
         Tools.setSystemBarLight(this)
     }
 
-
-    private fun generateCalendarDateIndicators(): List<CalendarView.DateIndicator> {
-        val context = this
-        val calendar = Calendar.getInstance()
-
-        val indicators = mutableListOf<CalendarView.DateIndicator>()
-
-        repeat(3) {
-            indicators += CalendarDateIndicator(
-                eventName = "Indicator #1",
-                date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.grey_10)
-            )
-
-            indicators += CalendarDateIndicator(
-                eventName = "Indicator #2",
-                date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.blue_100)
-            )
-
-            indicators += CalendarDateIndicator(
-                eventName = "Indicator #3",
-                date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.red_100)
-            )
-
-            indicators += CalendarDateIndicator(
-                eventName = "Indicator #4",
-                date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.yellow)
-            )
-
-            indicators += CalendarDateIndicator(
-                eventName = "Indicator #5",
-                date = CalendarDate(calendar.time),
-                color = context.getColorInt(R.color.green)
-            )
-
-            calendar.add(Calendar.DAY_OF_MONTH, 5)
-        }
-
-        return indicators
-    }
 
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {

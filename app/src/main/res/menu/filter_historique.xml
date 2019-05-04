@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/all"
-        android:title="ALL" />
+        android:title="TOUT" />
     <item
         android:id="@+id/accepted"
-        android:title="ACCEPTED" />
+        android:title="ACCEPTER" />
     <item
         android:id="@+id/refused"
-        android:title="REFUSED" />
+        android:title="REFUSER" />
     <item
         android:id="@+id/waiting"
-        android:title="WAITING" />
+        android:title="EN ATTENTE" />
 </menu>

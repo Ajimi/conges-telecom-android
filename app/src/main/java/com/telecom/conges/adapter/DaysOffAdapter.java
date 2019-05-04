@@ -1,5 +1,6 @@
 package com.telecom.conges.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.telecom.conges.R;
 import com.telecom.conges.data.models.DaysOff;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DaysOffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -47,6 +51,13 @@ public class DaysOffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return vh;
     }
 
+    private String formattedDate(String date) {
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"));
+        return DateTimeFormat.forPattern("E dd MMM").withLocale(Locale.FRENCH).print(localDate);
+    }
+
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NotNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof OriginalViewHolder) {
@@ -54,7 +65,7 @@ public class DaysOffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final DaysOff daysOff = items.get(position);
             view.title.setText(daysOff.getName());
-            view.brief.setText(daysOff.getDateStart());
+            view.date.setText(formattedDate(daysOff.getDateStart()) + " - " + formattedDate(daysOff.getDateEnd()));
 //            Tools.displayImageOriginal(ctx, view.image, daysOff.image);
             view.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,7 +128,7 @@ public class DaysOffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView title;
-        public TextView brief;
+        public TextView date;
         public ImageButton more;
         public View lyt_parent;
 
@@ -125,7 +136,7 @@ public class DaysOffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(v);
             image = (ImageView) v.findViewById(R.id.image);
             title = (TextView) v.findViewById(R.id.title);
-            brief = (TextView) v.findViewById(R.id.brief);
+            date = (TextView) v.findViewById(R.id.date);
             more = (ImageButton) v.findViewById(R.id.more);
             lyt_parent = (View) v.findViewById(R.id.lyt_parent);
         }

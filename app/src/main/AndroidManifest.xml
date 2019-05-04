@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.request.RequestValidationActivity"></activity>
-        <activity android:name=".ui.account.AccountActivity" />
+        <activity android:name=".ui.account.DemandsActivity" />
         <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +35,7 @@
         <activity android:name=".ui.ferie.FerieCreateActivity" />
         <activity android:name=".ui.ferie.FerieDisplayActivity" />
         <activity android:name=".ui.calendar.CalendarActivity" />
+        <activity android:name=".ui.request.history.SupervisorRequestsActivity" />
     </application>
 
 </manifest>

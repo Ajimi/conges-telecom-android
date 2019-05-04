@@ -14,12 +14,13 @@ import org.joda.time.format.DateTimeFormat
 import java.util.*
 
 
-class RequestItem(val request: Request) : AbstractItem<RequestItem, RequestItem.ViewHolder>() {
+class RequestSupervisorItem(val request: Request) :
+    AbstractItem<RequestSupervisorItem, RequestSupervisorItem.ViewHolder>() {
 
     //The unique ID for this type of item
     @SuppressLint("ResourceType")
     override fun getType(): Int {
-        return 15
+        return 16
     }
 
     //The layout to be used for this type of item
@@ -34,9 +35,9 @@ class RequestItem(val request: Request) : AbstractItem<RequestItem, RequestItem.
     /**
      * our ViewHolder
      */
-    class ViewHolder(val view: View) : FastAdapter.ViewHolder<RequestItem>(view) {
+    class ViewHolder(val view: View) : FastAdapter.ViewHolder<RequestSupervisorItem>(view) {
         @SuppressLint("NewApi")
-        override fun bindView(item: RequestItem, payloads: List<Any>) {
+        override fun bindView(item: RequestSupervisorItem, payloads: List<Any>) {
             with(view) {
                 item.request.let {
                     request_state.text = it.state.take(2).toUpperCase()
@@ -57,7 +58,7 @@ class RequestItem(val request: Request) : AbstractItem<RequestItem, RequestItem.
             }
         }
 
-        override fun unbindView(item: RequestItem) {
+        override fun unbindView(item: RequestSupervisorItem) {
 //            view.material_drawer_name.text = null
 //            view.material_drawer_description.text = null
         }

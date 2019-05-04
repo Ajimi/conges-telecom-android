@@ -12,6 +12,7 @@ import com.telecom.conges.data.services.request.RequestService
 import com.telecom.conges.ui.calendar.CalendarViewModel
 import com.telecom.conges.ui.ferie.DaysOffViewModel
 import com.telecom.conges.ui.login.LoginViewModel
+import com.telecom.conges.ui.main.MainViewModel
 import com.telecom.conges.ui.request.RequestViewModel
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -35,6 +36,7 @@ val myModule = module {
     single { RequestHelper(get()) }
     single { DaysOffHelper(get()) }
 
+    viewModel { MainViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { RequestViewModel(get(), get()) }
     viewModel { DaysOffViewModel(get()) }

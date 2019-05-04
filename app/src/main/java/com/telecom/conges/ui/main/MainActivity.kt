@@ -7,19 +7,23 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.telecom.conges.R
-import com.telecom.conges.ui.account.AccountActivity
 import com.telecom.conges.ui.calendar.CalendarActivity
 import com.telecom.conges.ui.ferie.FerieDisplayActivity
 import com.telecom.conges.ui.request.RequestActivity
 import com.telecom.conges.ui.request.history.HistoriesActivity
+import com.telecom.conges.ui.request.history.SupervisorRequestsActivity
 import com.telecom.conges.util.Tools
 import kotlinx.android.synthetic.main.activity_request.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
+
+    val mainViewModel: MainViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(mainViewModel.getLayoutByRole())
         initToolbar()
     }
 
@@ -40,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
             }
             R.id.account -> {
-                startActivity(AccountActivity.starterIntent(this@MainActivity))
+                startActivity(SupervisorRequestsActivity.starterIntent(this@MainActivity))
 
             }
             R.id.ferie -> {
