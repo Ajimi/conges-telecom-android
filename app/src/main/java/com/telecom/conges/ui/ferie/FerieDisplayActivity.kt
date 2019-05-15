@@ -8,9 +8,9 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.esprit.core.extensions.observeUIState
 import com.telecom.conges.R
 import com.telecom.conges.adapter.DaysOffAdapter
+import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
 import com.telecom.conges.util.Tools
 import kotlinx.android.synthetic.main.activity_ferie_display.*

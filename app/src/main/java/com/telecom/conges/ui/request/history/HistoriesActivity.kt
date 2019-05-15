@@ -11,9 +11,9 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.esprit.core.extensions.observeUIState
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.telecom.conges.R
+import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
 import com.telecom.conges.ui.request.RequestViewModel
 import com.telecom.conges.ui.request.detail.RequestDetailActivity

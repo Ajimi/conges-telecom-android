@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.esprit.core.extensions.observeUIState
 import com.telecom.conges.R
+import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
 import com.telecom.conges.util.Tools
 import kotlinx.android.synthetic.main.activity_request.*
@@ -28,6 +28,7 @@ class RequestValidationActivity : AppCompatActivity() {
 
             })
         })
+
         requestViewModel.uiRefuseRequestState.observe(this, Observer {
             val uiModel = it ?: return@Observer
             observeUIState(uiModel, {}, {

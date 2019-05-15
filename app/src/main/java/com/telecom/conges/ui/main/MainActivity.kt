@@ -7,11 +7,13 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.telecom.conges.R
+import com.telecom.conges.ui.account.AccountActivity
 import com.telecom.conges.ui.calendar.CalendarActivity
 import com.telecom.conges.ui.ferie.FerieDisplayActivity
 import com.telecom.conges.ui.request.RequestActivity
+import com.telecom.conges.ui.request.RequestsListActivity
 import com.telecom.conges.ui.request.history.HistoriesActivity
-import com.telecom.conges.ui.request.history.SupervisorRequestsActivity
+import com.telecom.conges.ui.statistics.StatisticActivity
 import com.telecom.conges.util.Tools
 import kotlinx.android.synthetic.main.activity_request.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,11 +46,16 @@ class MainActivity : AppCompatActivity() {
 
             }
             R.id.account -> {
-                startActivity(SupervisorRequestsActivity.starterIntent(this@MainActivity))
-
+                startActivity(AccountActivity.starterIntent(this@MainActivity))
+            }
+            R.id.statistiques -> {
+                startActivity(StatisticActivity.starterIntent(this@MainActivity))
             }
             R.id.ferie -> {
                 startActivity(FerieDisplayActivity.starterIntent(this@MainActivity))
+            }
+            R.id.demande -> {
+                startActivity(RequestsListActivity.starterIntent(this@MainActivity))
             }
             R.id.calendrier -> {
                 startActivity(CalendarActivity.starterIntent(this@MainActivity))

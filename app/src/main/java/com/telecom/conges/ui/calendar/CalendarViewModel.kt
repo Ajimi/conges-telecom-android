@@ -7,8 +7,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.esprit.core.extensions.UiState
-import com.esprit.core.extensions.emitUiState
 import com.telecom.conges.R
 import com.telecom.conges.data.Result
 import com.telecom.conges.data.models.DaysOff
@@ -16,12 +14,14 @@ import com.telecom.conges.data.models.Request
 import com.telecom.conges.data.services.auth.AuthenticationHelper
 import com.telecom.conges.data.services.daysoff.DaysOffHelper
 import com.telecom.conges.data.services.request.RequestHelper
+import com.telecom.conges.extensions.UiState
+import com.telecom.conges.extensions.emitUiState
 import com.telecom.conges.util.Event
 import kotlinx.coroutines.*
 import org.joda.time.Days
 import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 import ru.cleverpumpkin.calendar.CalendarDate
+import java.util.*
 import kotlin.random.Random
 
 class CalendarViewModel(
@@ -51,7 +51,7 @@ class CalendarViewModel(
         uiScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 _uiIndicatorsState.value = emitUiState(showProgress = true)
-                colorsList = context.resources.getIntArray(R.array.colors);
+                colorsList = context.resources.getIntArray(R.array.colors)
             }
             val resultDaysOff = daysOffHelper.getAllDaysOff()
             val resultRequest = requestHelper.getAllRequest()
@@ -127,7 +127,8 @@ class CalendarViewModel(
                     CalendarDate(it),
                     pair.second,
                     pair.first.first.reason,
-                    pair.first.first.user?.username
+                    pair.first.first.user?.firstname?.capitalize() + " " + pair.first.first.user?.lastname?.capitalize()
+
                 )
             }
         }.onEach {
@@ -149,9 +150,11 @@ class CalendarViewModel(
     }
 
     @SuppressLint("NewApi")
-    private fun numberOfDays(dateStarts: String, dateEnds: String): Pair<LocalDate, Int> {
-        val dateStart = LocalDate.parse(dateStarts, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"))
-        val dateEnd = LocalDate.parse(dateEnds, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"))
+    private fun numberOfDays(dateStarts: Date, dateEnds: Date): Pair<LocalDate, Int> {
+        val dateStart = LocalDate(dateStarts)
+        val dateEnd = LocalDate(dateEnds)
+//        val dateStart = LocalDate.parse(dateStarts, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"))
+//        val dateEnd = LocalDate.parse(dateEnds, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"))
         val days = Days.daysBetween(dateStart, dateEnd)
         return Pair(dateStart, days.days)
     }

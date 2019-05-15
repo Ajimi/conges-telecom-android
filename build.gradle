@@ -27,7 +27,7 @@ buildscript {
         supportLibraryVersion = '1.1.0-alpha04'
         uiAutomatorVersion = '2.2.0'
         workVersion = '2.0.1'
-        koin_version = '2.0.0-rc-2'
+        koin_version = '2.0.0-GA2'
         retrofitVersion = '2.5.0'
         coroutinesCallFactory = '0.9.2'
     }

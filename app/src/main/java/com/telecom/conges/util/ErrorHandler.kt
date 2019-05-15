@@ -1,7 +1,6 @@
 package com.telecom.conges.util
 
 import com.google.gson.annotations.SerializedName
-import com.telecom.conges.util.Error
 
 data class ErrorHandler(
     @SerializedName("className")

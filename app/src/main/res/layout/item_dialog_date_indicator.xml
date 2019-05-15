@@ -15,14 +15,32 @@
         android:layout_marginLeft="8dp"
         tools:background="@android:color/holo_red_dark" />
 
-    <TextView
-        android:id="@+id/event_name_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        tools:text="Event #1" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/event_name_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            tools:text="Event #1" />
+
+        <TextView
+            android:id="@+id/event_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/grey_40"
+            android:textSize="16sp"
+            android:visibility="gone"
+            tools:text="Event #1" />
+    </LinearLayout>
 
 </LinearLayout>

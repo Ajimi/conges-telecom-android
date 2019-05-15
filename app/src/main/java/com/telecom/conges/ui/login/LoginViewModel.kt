@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.esprit.core.extensions.UiState
-import com.esprit.core.extensions.emitUiState
 import com.telecom.conges.data.Result
 import com.telecom.conges.data.services.auth.AuthenticationHelper
+import com.telecom.conges.extensions.UiState
+import com.telecom.conges.extensions.emitUiState
 import com.telecom.conges.util.Event
 import kotlinx.coroutines.*
 

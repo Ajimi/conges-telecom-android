@@ -1,4 +1,4 @@
-package com.telecom.conges.ui.request.history
+package com.telecom.conges.ui.request
 
 import android.app.Dialog
 import android.content.Context
@@ -12,12 +12,12 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.esprit.core.extensions.observeUIState
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.telecom.conges.R
 import com.telecom.conges.data.models.RequestRole
+import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
-import com.telecom.conges.ui.request.RequestViewModel
+import com.telecom.conges.ui.request.history.RequestSupervisorItem
 import com.telecom.conges.util.State
 import com.telecom.conges.util.Tools
 import kotlinx.android.synthetic.main.activity_histories.*
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.dialog_term_of_services.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class SupervisorRequestsActivity : AppCompatActivity() {
+class RequestsListActivity : AppCompatActivity() {
 
     val requestViewModel: RequestViewModel by viewModel()
 
@@ -38,7 +38,7 @@ class SupervisorRequestsActivity : AppCompatActivity() {
         requestViewModel.loadRequestsByType(RequestRole.SUPERVISOR.name)
         fastItemAdapter = FastItemAdapter()
         rv.apply {
-            layoutManager = LinearLayoutManager(this@SupervisorRequestsActivity)
+            layoutManager = LinearLayoutManager(this@RequestsListActivity)
             itemAnimator = DefaultItemAnimator()
             adapter = fastItemAdapter
         }
@@ -144,7 +144,7 @@ class SupervisorRequestsActivity : AppCompatActivity() {
     companion object {
 
         fun starterIntent(context: Context): Intent {
-            return Intent(context, SupervisorRequestsActivity::class.java).apply {
+            return Intent(context, RequestsListActivity::class.java).apply {
                 //            putExtra(EXTRA_PAVILION, pavilion)
             }
         }

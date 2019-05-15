@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.esprit.core.extensions.observeUIState
+import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
 import com.telecom.conges.ui.request.RequestViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel

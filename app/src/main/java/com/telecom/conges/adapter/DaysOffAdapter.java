@@ -18,6 +18,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,8 +52,8 @@ public class DaysOffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return vh;
     }
 
-    private String formattedDate(String date) {
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"));
+    private String formattedDate(Date date) {
+        LocalDate localDate = new LocalDate(date);
         return DateTimeFormat.forPattern("E dd MMM").withLocale(Locale.FRENCH).print(localDate);
     }
 
@@ -134,11 +135,11 @@ public class DaysOffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public OriginalViewHolder(View v) {
             super(v);
-            image = (ImageView) v.findViewById(R.id.image);
-            title = (TextView) v.findViewById(R.id.title);
-            date = (TextView) v.findViewById(R.id.date);
-            more = (ImageButton) v.findViewById(R.id.more);
-            lyt_parent = (View) v.findViewById(R.id.lyt_parent);
+            image = v.findViewById(R.id.image);
+            title = v.findViewById(R.id.title);
+            date = v.findViewById(R.id.date);
+            more = v.findViewById(R.id.more);
+            lyt_parent = v.findViewById(R.id.lyt_parent);
         }
 
     }

@@ -1,6 +1,7 @@
 package com.telecom.conges.data.models
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class User(
     @SerializedName("email")
@@ -20,5 +21,12 @@ data class User(
     @SerializedName("consumedSolde")
     val consumedSolde: Int = 0,
     @SerializedName("solde")
-    val solde: Int = 28
-)
+    val solde: Int = 28,
+    @SerializedName("registerDate")
+    val registerDate: Date = Date()
+) {
+    val fullName: String
+        get() {
+            return "${firstname.capitalize()} ${lastname.capitalize()}"
+        }
+}

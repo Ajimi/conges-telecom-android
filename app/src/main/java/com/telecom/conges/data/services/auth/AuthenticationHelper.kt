@@ -23,6 +23,10 @@ class AuthenticationHelper(
         errorMessage = "Error logging in"
     )
 
+    suspend fun getUser(userId: String) = safeApiCall(
+        call = { requestUser(userId) },
+        errorMessage = "Error Getting user"
+    )
 
     private suspend fun requestLogin(username: String, password: String): Result<User> {
         val response = auth.login(LoginDTO(username, password)).await()
@@ -34,7 +38,8 @@ class AuthenticationHelper(
                 val token = body.token
                 Log.v("ACCESS_TOKEN", token)
 //                tokenLocalDataSource.authToken = token
-                val result = requestUser(token)
+                val userID = getUserIdFrom(token = token)
+                val result = requestUser(userID)
                 if (result is Result.Success) {
                     setLoggedInUser(result.data)
                 }
@@ -49,9 +54,8 @@ class AuthenticationHelper(
 
     private fun getUserIdFrom(token: String) = JWT(token).getClaim("id").asString().toString()
 
-    private suspend fun requestUser(token: String): Result<User> {
+    private suspend fun requestUser(userID: String): Result<User> {
 
-        val userID = getUserIdFrom(token = token)
 
         val response = auth.get(userID).await()
 

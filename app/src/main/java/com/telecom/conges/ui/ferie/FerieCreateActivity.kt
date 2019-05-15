@@ -9,9 +9,9 @@ import android.view.WindowManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.esprit.core.extensions.observeUIState
 import com.telecom.conges.R
 import com.telecom.conges.data.models.DaysOff
+import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
 import com.telecom.conges.util.Tools
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
@@ -60,8 +60,8 @@ class FerieCreateActivity : AppCompatActivity() {
         }
 
         confirm.setOnClickListener {
-            val startDate = bt_start_date.text.toString()
-            val endDate = bt_end_date.text.toString()
+            val startDate = Tools.getDateShort(bt_start_date.text.toString())
+            val endDate = Tools.getDateShort(bt_end_date.text.toString())
             val name = name_day_off.text.toString()
             DaysOff("", name, startDate, endDate).apply {
                 daysOffViewModel.createDaysOff(this)
@@ -95,10 +95,10 @@ class FerieCreateActivity : AppCompatActivity() {
             currentCalender.get(Calendar.DAY_OF_MONTH)
         )
         //set dark light
-        datePicker.isThemeDark = false;
-        datePicker.accentColor = getResources().getColor(R.color.colorPrimary);
-        datePicker.minDate = currentCalender;
-        datePicker.show(supportFragmentManager, "Start Date");
+        datePicker.isThemeDark = false
+        datePicker.accentColor = resources.getColor(R.color.colorPrimary)
+        datePicker.minDate = currentCalender
+        datePicker.show(supportFragmentManager, "Start Date")
 
     }
 

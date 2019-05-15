@@ -14,9 +14,11 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.esprit.core.extensions.observeUIState
+import androidx.core.content.ContextCompat
 import com.telecom.conges.R
 import com.telecom.conges.data.models.Request
+import com.telecom.conges.extensions.invisible
+import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
 import com.telecom.conges.util.State
 import com.telecom.conges.util.Tools
@@ -67,9 +69,12 @@ class RequestActivity : AppCompatActivity() {
             "Autre"
         )
 
-        list.map {
-            val button = createButton(it)
-            raison.addView(button)
+        val buttons = list.map {
+            createButton(it)
+        }
+
+        buttons.map {
+            raison.addView(it)
         }
 
         seek_bar.setOnSeekbarChangeListener { minValue ->
@@ -97,7 +102,7 @@ class RequestActivity : AppCompatActivity() {
             if (selectedButton != null && selectedButton?.isSelected == true) {
                 val startDate = Tools.getDateShort(bt_start_date.text.toString())
                 val endDate = Tools.getDateShort(bt_end_date.text.toString())
-                sendRequest(selectedButton?.text.toString(), startDate.toString(), endDate.toString())
+                sendRequest(selectedButton?.text.toString(), startDate, endDate)
             } else {
                 toast("S'il vous selectioner une raison")
             }
@@ -111,9 +116,25 @@ class RequestActivity : AppCompatActivity() {
                 bt_end_date.setText(this)
             }
         }
+
+
+        val restDays = requestViewModel.getMaxSolde().toFloat()
+        seek_bar.maxValue = restDays
+        if (restDays < 1) {
+            seek_bar.invisible()
+            price_min.text = "Désolé votre solde et expiré"
+            price_min.setTextColor(ContextCompat.getColor(this, R.color.red_100))
+            clear.isEnabled = false
+            confirm.isEnabled = false
+            bt_end_date.isEnabled = false
+            bt_start_date.isEnabled = false
+            buttons.map {
+                it.isEnabled = false
+            }
+        }
     }
 
-    private fun sendRequest(reason: String, startDate: String, endDate: String) {
+    private fun sendRequest(reason: String, startDate: Date, endDate: Date) {
         val request = Request(endDate, startDate, 0, reason, State.WAITING.name, false)
         requestViewModel.createRequest(request)
     }
@@ -133,7 +154,7 @@ class RequestActivity : AppCompatActivity() {
     private fun createButton(name: String) = Button(this).apply {
         isSelected = false
         text = name
-        setTextAppearance(resources.getIdentifier("TextAppearance.AppCompat.Title", "style", getPackageName()))
+        setTextAppearance(resources.getIdentifier("TextAppearance.AppCompat.Title", "style", packageName))
         setTextColor(getColor(com.telecom.conges.R.color.grey_90))
         setOnClickListener {
             btToggleClick(it)
@@ -146,8 +167,6 @@ class RequestActivity : AppCompatActivity() {
         ).apply {
             topMargin = 15
         }
-
-
     }
 
     private fun dialogDatePickerLight(v: View) {
@@ -168,10 +187,10 @@ class RequestActivity : AppCompatActivity() {
             currentCalender.get(Calendar.DAY_OF_MONTH)
         )
         //set dark light
-        datePicker.isThemeDark = false;
-        datePicker.accentColor = getResources().getColor(R.color.colorPrimary);
-        datePicker.minDate = currentCalender;
-        datePicker.show(supportFragmentManager, "Start Date");
+        datePicker.isThemeDark = false
+        datePicker.accentColor = resources.getColor(R.color.colorPrimary)
+        datePicker.minDate = currentCalender
+        datePicker.show(supportFragmentManager, "Start Date")
 
     }
 
@@ -223,9 +242,7 @@ class RequestActivity : AppCompatActivity() {
     companion object {
 
         fun starterIntent(context: Context): Intent {
-            return Intent(context, RequestActivity::class.java).apply {
-                //            putExtra(EXTRA_PAVILION, pavilion)
-            }
+            return Intent(context, RequestActivity::class.java).apply {}
         }
     }
 

@@ -4,14 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.esprit.core.extensions.UiState
-import com.esprit.core.extensions.emitUiState
 import com.telecom.conges.data.Result
 import com.telecom.conges.data.models.Request
 import com.telecom.conges.data.models.RequestRequest
 import com.telecom.conges.data.models.RequestRole
 import com.telecom.conges.data.services.auth.AuthenticationHelper
 import com.telecom.conges.data.services.request.RequestHelper
+import com.telecom.conges.extensions.UiState
+import com.telecom.conges.extensions.emitUiState
 import com.telecom.conges.util.Event
 import com.telecom.conges.util.State
 import kotlinx.coroutines.*
@@ -56,6 +56,12 @@ class RequestViewModel(
         Log.v("USER ID", "${authenticationHelper.user?.id}")
         Log.v("USER ID", type)
         launchRequestsByType(authenticationHelper.user?.id.toString(), type)
+    }
+
+    fun getMaxSolde(): Int = authenticationHelper.user?.let {
+        it.solde - it.consumedSolde
+    } ?: run {
+        30
     }
 
     private fun launchRequestsByType(id: String, type: String = RequestRole.USER.name) =

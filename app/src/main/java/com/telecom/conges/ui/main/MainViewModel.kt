@@ -9,10 +9,10 @@ class MainViewModel(private val authenticationHelper: AuthenticationHelper) : Vi
     fun getLayoutByRole(): Int {
         val user = authenticationHelper.user
         return when (getRole()) {
-            "USER" -> R.layout.activity_main
-            "RH" -> R.layout.activity_main
-            "SUPERVISOR" -> R.layout.activity_main
-            else -> R.layout.activity_main
+            "USER" -> R.layout.activity_main_user
+            "RH" -> R.layout.activity_main_rh
+            "SUPERVISOR" -> R.layout.activity_main_supervisor
+            else -> R.layout.activity_main_user
         }
     }
 

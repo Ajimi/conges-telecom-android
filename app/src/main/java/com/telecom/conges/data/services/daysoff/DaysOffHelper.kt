@@ -5,12 +5,12 @@ import com.telecom.conges.data.models.DaysOff
 import com.telecom.conges.extensions.safeApiCall
 import java.io.IOException
 
-public class DaysOffHelper(
+class DaysOffHelper(
     private val service: DaysOffService
 ) {
     suspend fun createDaysOff(daysOff: DaysOff) = safeApiCall(
         call = { launchCreateDaysOff(daysOff) },
-        errorMessage = "Error logging in"
+        errorMessage = "Error creating daysOff "
     )
 
     private suspend fun launchCreateDaysOff(daysOff: DaysOff): Result<DaysOff> {
@@ -32,7 +32,7 @@ public class DaysOffHelper(
 
     suspend fun getAllDaysOff() = safeApiCall(
         call = { launchGetAllDaysOff() },
-        errorMessage = "Error logging in"
+        errorMessage = "Error retrieving days Off "
     )
 
     private suspend fun launchGetAllDaysOff(): Result<List<DaysOff>> {
@@ -53,7 +53,7 @@ public class DaysOffHelper(
 
     suspend fun deleteDaysOff(id: String) = safeApiCall(
         call = { launchDeleteDaysOff(id) },
-        errorMessage = "Error logging in"
+        errorMessage = "Error deleting days Off "
     )
 
     private suspend fun launchDeleteDaysOff(id: String): Result<String> {
@@ -68,13 +68,13 @@ public class DaysOffHelper(
         }
 
         return Result.Error(
-            IOException("Error retrieving days Off ${response.code()}")
+            IOException("Error deleting days Off ${response.code()}")
         )
     }
 
     suspend fun editDaysOff(id: String) = safeApiCall(
         call = { launchEditDaysOff(id) },
-        errorMessage = "Error logging in"
+        errorMessage = "Error editing days Off"
     )
 
     private suspend fun launchEditDaysOff(id: String): Result<String> {
@@ -89,7 +89,7 @@ public class DaysOffHelper(
         }
 
         return Result.Error(
-            IOException("Error retrieving days Off ${response.code()}")
+            IOException("Error editing days Off ${response.code()}")
         )
     }
 

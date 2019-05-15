@@ -62,18 +62,17 @@ class RequestItem(val request: Request) : AbstractItem<RequestItem, RequestItem.
 //            view.material_drawer_description.text = null
         }
 
-        private fun numberOfDays(dateStarts: String, dateEnds: String): Pair<LocalDate, Int> {
-            val dateStart = LocalDate.parse(dateStarts, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"))
-            val dateEnd = LocalDate.parse(dateEnds, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"))
+        private fun numberOfDays(dateStarts: Date, dateEnds: Date): Pair<LocalDate, Int> {
+            val dateStart = LocalDate(dateStarts)
+            val dateEnd = LocalDate(dateEnds)
             val days = Days.daysBetween(dateStart, dateEnd)
             return Pair(dateStart, days.days)
         }
 
-        private fun formattedDate(date: String): String? {
-            val localDate = LocalDate.parse(date, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"))
-            return DateTimeFormat.forPattern("E dd MMM Y").withLocale(Locale.FRENCH).print(localDate);
+        private fun formattedDate(date: Date): String? {
+            val localDate = LocalDate(date)
+            return DateTimeFormat.forPattern("E dd MMM Y").withLocale(Locale.FRENCH).print(localDate)
         }
-
 
     }
 

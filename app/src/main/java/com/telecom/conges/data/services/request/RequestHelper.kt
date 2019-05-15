@@ -9,7 +9,7 @@ import com.telecom.conges.data.models.SoldeRequest.SoldeRequest
 import com.telecom.conges.extensions.safeApiCall
 import java.io.IOException
 
-public class RequestHelper(
+class RequestHelper(
     private val service: RequestService
 ) {
     suspend fun createRequest(request: RequestRequest) = safeApiCall(

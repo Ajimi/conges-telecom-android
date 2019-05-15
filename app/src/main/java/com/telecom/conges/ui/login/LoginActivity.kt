@@ -1,13 +1,13 @@
 package com.telecom.conges.ui.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.afollestad.materialdialogs.MaterialDialog
-import com.esprit.core.extensions.observeUIState
-import com.telecom.conges.ui.main.MainActivity
 import com.telecom.conges.R
+import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
+import com.telecom.conges.ui.main.MainActivity
 import com.telecom.conges.util.DialogWidget
 import com.telecom.conges.util.EventObserver
 import kotlinx.android.synthetic.main.activity_login.*
