@@ -16,5 +16,5 @@ data class Request(
     val state: String,
     @SerializedName("isApproved")
     val isApproved: Boolean,
-    val user: User? = null
+    var user: User? = null
 )

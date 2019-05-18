@@ -23,7 +23,7 @@ data class User(
     @SerializedName("solde")
     val solde: Int = 28,
     @SerializedName("registerDate")
-    val registerDate: Date = Date()
+    val registerDate: Date? = Date()
 ) {
     val fullName: String
         get() {

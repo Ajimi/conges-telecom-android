@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,14 +13,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.telecom.conges.R
+import com.telecom.conges.data.models.Request
 import com.telecom.conges.data.models.RequestRole
-import com.telecom.conges.extensions.observeUIState
-import com.telecom.conges.extensions.toast
+import com.telecom.conges.extensions.*
 import com.telecom.conges.ui.request.history.RequestSupervisorItem
 import com.telecom.conges.util.State
 import com.telecom.conges.util.Tools
 import kotlinx.android.synthetic.main.activity_histories.*
 import kotlinx.android.synthetic.main.dialog_term_of_services.*
+import kotlinx.android.synthetic.main.no_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -35,7 +35,13 @@ class RequestsListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_histories)
         initToolbar()
-        requestViewModel.loadRequestsByType(RequestRole.SUPERVISOR.name)
+
+        intent.getStringExtra(EXTRA_USER_ID)?.let { userId ->
+            requestViewModel.getRole()?.let { requestViewModel.loadRequestsByType(userId) }
+        } ?: run {
+            requestViewModel.getRole()?.let { requestViewModel.loadRequestsByType(it.toUpperCase()) }
+        }
+
         fastItemAdapter = FastItemAdapter()
         rv.apply {
             layoutManager = LinearLayoutManager(this@RequestsListActivity)
@@ -43,31 +49,142 @@ class RequestsListActivity : AppCompatActivity() {
             adapter = fastItemAdapter
         }
 
-
         requestViewModel.uiHistoriesState.observe(this, Observer {
             val uiModel = it ?: return@Observer
             observeUIState(uiModel, {}, {
                 toast(it)
             }, {
-                fastItemAdapter.clear()
-                it.map {
-                    fastItemAdapter.add(RequestSupervisorItem(it))
-                }
                 if (it.isEmpty()) {
-                    // TODO display Empty List
+                    empty_list.visible()
+                    nested_content.gone()
+                    empty_list.message.text = "Liste des congés est vides"
+                } else {
+                    empty_list.gone()
+                    nested_content.visible()
+                    fastItemAdapter.clear()
+                    it.map {
+                        fastItemAdapter.add(RequestSupervisorItem(it))
+                    }
                 }
             })
         })
 
         fastItemAdapter.withOnClickListener { _, _, item, _ ->
-            showTermServicesDialog()
-            Log.v("ITEM REQUEST", item.request.toString())
+            requestViewModel.getRole()?.let { role ->
+                when (role.toUpperCase()) {
+                    RequestRole.HR.name -> {
+                        if (item.request.state == "ACCEPTED" && item.request.isApproved) {
+                            toast("Deja Accepter")
+                            return@withOnClickListener true
+                        }
+                    }
+                    RequestRole.SUPERVISOR.name -> {
+                        if (item.request.isApproved) {
+                            toast("Deja Confirmer")
+                            return@withOnClickListener true
+                        }
+                    }
+                }
+            }
+
+            when (requestViewModel.getRole()?.toUpperCase()) {
+                RequestRole.SUPERVISOR.name -> showConfirmationMenu(item.request)
+                RequestRole.HR.name -> showAcceptanceMenu(item.request)
+                else -> showConfirmationMenu(item.request)
+            }
             true
         }
+        acceptAndRefuseHandling()
 
     }
 
-    private fun showTermServicesDialog() {
+    private fun acceptAndRefuseHandling() {
+        requestViewModel.uiConfirmRequestState.observe(this, Observer {
+            val uiModel = it ?: return@Observer
+            observeUIState(uiModel, {}, {
+                toast(it)
+            }, {
+                updateList()
+            })
+        })
+
+        requestViewModel.uiAcceptRequestState.observe(this, Observer {
+            val uiModel = it ?: return@Observer
+            observeUIState(uiModel, {}, {
+                toast(it)
+            }, {
+                updateList()
+            })
+        })
+
+        requestViewModel.uiRefuseRequestState.observe(this, Observer {
+            val uiModel = it ?: return@Observer
+            observeUIState(uiModel, {}, {
+                toast(it)
+            }, {
+                updateList()
+            })
+        })
+    }
+
+    private fun updateList() {
+        intent.getStringExtra(EXTRA_USER_ID)?.let { userId ->
+            requestViewModel.getRole()?.let { requestViewModel.loadRequestsByType(userId) }
+        } ?: run {
+            requestViewModel.getRole()?.let { requestViewModel.loadRequestsByType(it.toUpperCase()) }
+        }
+    }
+
+    private fun showAcceptanceMenu(request: Request) {
+        val (dialog, layoutParams) = initDialog(request)
+
+
+        dialog.close_btn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.bt_accept.setOnClickListener {
+            requestViewModel.acceptRequest(request.id.toString())
+            toast("Acceptation en cours")
+            dialog.dismiss()
+        }
+
+        dialog.bt_decline.setOnClickListener {
+            requestViewModel.refuseRequest(request.id.toString())
+            toast("En train de refuser")
+            dialog.dismiss()
+        }
+
+        dialog.show()
+        dialog.window?.attributes = layoutParams
+    }
+
+    private fun showConfirmationMenu(request: Request) {
+
+        val (dialog, layoutParams) = initDialog(request)
+
+        dialog.titreConges.invisible()
+        dialog.bt_accept.text = "Confirmer"
+        dialog.title.text = "Confirmation de congés"
+
+        dialog.close_btn.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.bt_accept.setOnClickListener {
+            requestViewModel.confirmRequest(request.id.toString())
+            toast("Button Accept Clicked", Toast.LENGTH_SHORT)
+        }
+
+        dialog.bt_decline.setOnClickListener {
+            requestViewModel.refuseRequest(request.id.toString())
+            toast("Button Decline Clicked", Toast.LENGTH_SHORT)
+        }
+
+        dialog.show()
+        dialog.window?.attributes = layoutParams
+    }
+
+    private fun initDialog(request: Request): Pair<Dialog, WindowManager.LayoutParams> {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
         dialog.setContentView(R.layout.dialog_term_of_services)
@@ -78,31 +195,32 @@ class RequestsListActivity : AppCompatActivity() {
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
 
-//        findViewById<ImageButton>(R.id.bt_close).setOnClickListener { dialog.dismiss() }
 
-        dialog.close_btn.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.bt_accept.setOnClickListener {
-            toast("Button Accept Clicked", Toast.LENGTH_SHORT)
+        request.user?.let {
+            dialog.fullName.text = it.fullName
+            val solde = it.solde - it.consumedSolde
+            dialog.soldeEmployee.text = "$solde SOLDE RESTANTE "
         }
 
-        dialog.bt_decline.setOnClickListener {
-            toast("Button Decline Clicked", Toast.LENGTH_SHORT)
-        }
+        dialog.startingDate.text = request.dateStart.FormatedDate().toUpperCase()
+        dialog.endingDate.text = request.dateEnd.FormatedDate().toUpperCase()
 
-        dialog.show()
-        dialog.window?.attributes = layoutParams
+        val (_, days) = request.dateStart.numberOfDays(request.dateEnd)
+        dialog.totalDays.text = if (days + 1 == 1) "1 JOUR" else "${days + 1} JOURS"
+        dialog.raison.text = request.reason
+
+        return Pair(dialog, layoutParams)
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(com.telecom.conges.R.menu.menu_historique, menu)
+        menuInflater.inflate(R.menu.menu_historique, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
-            com.telecom.conges.R.id.menu_filter -> {
+            R.id.menu_filter -> {
                 showFilteringPopUpMenu()
                 true
             }
@@ -142,10 +260,17 @@ class RequestsListActivity : AppCompatActivity() {
 
 
     companion object {
+        const val EXTRA_USER_ID = "USER_ID"
 
         fun starterIntent(context: Context): Intent {
             return Intent(context, RequestsListActivity::class.java).apply {
                 //            putExtra(EXTRA_PAVILION, pavilion)
+            }
+        }
+
+        fun starterIntent(context: Context, id: String): Intent {
+            return Intent(context, RequestsListActivity::class.java).apply {
+                putExtra(EXTRA_USER_ID, id)
             }
         }
     }

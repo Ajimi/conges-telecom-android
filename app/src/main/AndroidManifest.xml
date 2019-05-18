@@ -18,18 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.statistics.StatisticActivity">
-
-        </activity>
-        <activity android:name=".ui.request.RequestValidationActivity" />
-        <activity android:name=".ui.account.AccountActivity" />
-        <activity android:name=".ui.login.LoginActivity">
+        <activity android:name=".ActivitySplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <activity android:name=".ui.statistics.StatisticActivity" />
+        <activity android:name=".ui.request.RequestValidationActivity" />
+        <activity android:name=".ui.account.AccountActivity" />
+        <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.request.history.HistoriesActivity" />
         <activity android:name=".ui.request.RequestActivity" />
@@ -38,6 +38,7 @@
         <activity android:name=".ui.ferie.FerieDisplayActivity" />
         <activity android:name=".ui.calendar.CalendarActivity" />
         <activity android:name=".ui.request.RequestsListActivity" />
+        <activity android:name=".ui.request.UserListActivity" />
     </application>
 
 </manifest>

@@ -16,12 +16,10 @@ import com.telecom.conges.data.services.daysoff.DaysOffHelper
 import com.telecom.conges.data.services.request.RequestHelper
 import com.telecom.conges.extensions.UiState
 import com.telecom.conges.extensions.emitUiState
+import com.telecom.conges.extensions.numberOfDays
 import com.telecom.conges.util.Event
 import kotlinx.coroutines.*
-import org.joda.time.Days
-import org.joda.time.LocalDate
 import ru.cleverpumpkin.calendar.CalendarDate
-import java.util.*
 import kotlin.random.Random
 
 class CalendarViewModel(
@@ -93,7 +91,7 @@ class CalendarViewModel(
     @SuppressLint("NewApi")
     private fun parseDatesDayOff(data: List<DaysOff>): List<CalendarDateIndicator> {
         return data.map {
-            val (dateStart, days) = numberOfDays(it.dateStart, it.dateEnd)
+            val (dateStart, days) = it.dateStart.numberOfDays(it.dateEnd)
             val dates = (0..days).map {
                 val currentDate = dateStart.plusDays(it)
                 currentDate.toDate()
@@ -115,7 +113,7 @@ class CalendarViewModel(
     @SuppressLint("NewApi")
     private fun parseDatesRequest(data: List<Request>): List<CalendarDateIndicator> {
         return data.filter { it.isApproved }.map { request ->
-            val (dateStart, days) = numberOfDays(request.dateStart, request.dateEnd)
+            val (dateStart, days) = request.dateStart.numberOfDays(request.dateEnd)
             val dates = (0..days).map {
                 val currentDate = dateStart.plusDays(it)
                 currentDate.toDate()
@@ -148,17 +146,6 @@ class CalendarViewModel(
         setOfColors.add(colorResource)
         return ContextCompat.getColor(context, colorResource)
     }
-
-    @SuppressLint("NewApi")
-    private fun numberOfDays(dateStarts: Date, dateEnds: Date): Pair<LocalDate, Int> {
-        val dateStart = LocalDate(dateStarts)
-        val dateEnd = LocalDate(dateEnds)
-//        val dateStart = LocalDate.parse(dateStarts, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"))
-//        val dateEnd = LocalDate.parse(dateEnds, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z"))
-        val days = Days.daysBetween(dateStart, dateEnd)
-        return Pair(dateStart, days.days)
-    }
-
 
     private fun getColorsList() = mutableListOf<Int>(
         R.color.colorPrimaryDark,

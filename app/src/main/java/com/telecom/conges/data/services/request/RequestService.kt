@@ -27,13 +27,17 @@ interface RequestService {
     @Headers("Accept: application/json")
     fun modifyRequest(@Path("id") id: String, @Body request: Request): Deferred<Response<List<String>>> // TODO CHECK Return typpe
 
+    @PUT("requests/confirm/{id}")
+    @Headers("Accept: application/json")
+    fun confirmRequest(@Path("id") id: String): Deferred<Response<Request>> // TODO CHECK Return typpe
+
     @PUT("requests/accept/{id}")
     @Headers("Accept: application/json")
-    fun acceptRequest(@Path("id") id: String): Deferred<Response<String>> // TODO CHECK Return typpe
+    fun acceptRequest(@Path("id") id: String): Deferred<Response<Request>> // TODO CHECK Return typpe
 
     @PUT("requests/refuse/{id}")
     @Headers("Accept: application/json")
-    fun refuseRequest(@Path("id") id: String): Deferred<Response<String>> // TODO CHECK Return typpe
+    fun refuseRequest(@Path("id") id: String): Deferred<Response<Request>> // TODO CHECK Return typpe
 
     @POST("auth/solde/{id}")
     @Headers("Accept: application/json")

@@ -7,11 +7,9 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.telecom.conges.R
 import com.telecom.conges.data.models.Request
+import com.telecom.conges.extensions.FormatDate
+import com.telecom.conges.extensions.numberOfDays
 import kotlinx.android.synthetic.main.historique_list_item.view.*
-import org.joda.time.Days
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
-import java.util.*
 
 
 class RequestSupervisorItem(val request: Request) :
@@ -49,10 +47,10 @@ class RequestSupervisorItem(val request: Request) :
                     }
                     Log.v("STATE", it.state)
                     request_state.background = context.getDrawable(backgroundResourceId)
-                    start_date.text = formattedDate(it.dateStart)
-                    end_date.text = formattedDate(it.dateEnd)
+                    start_date.text = it.dateStart.FormatDate()
+                    end_date.text = it.dateEnd.FormatDate()
                     type_request.text = it.reason
-                    val (startingDate, days) = numberOfDays(it.dateStart, it.dateEnd)
+                    val (startingDate, days) = it.dateStart.numberOfDays(it.dateEnd)
                     jours.text = if (days <= 1) "Un jour" else "$days jours"
                 }
             }
@@ -62,20 +60,6 @@ class RequestSupervisorItem(val request: Request) :
 //            view.material_drawer_name.text = null
 //            view.material_drawer_description.text = null
         }
-
-        private fun numberOfDays(dateStarts: Date, dateEnds: Date): Pair<LocalDate, Int> {
-            val dateStart = LocalDate(dateStarts)
-            val dateEnd = LocalDate(dateEnds)
-            val days = Days.daysBetween(dateStart, dateEnd)
-            return Pair(dateStart, days.days)
-        }
-
-        private fun formattedDate(date: Date): String? {
-            val localDate = LocalDate(date)
-            return DateTimeFormat.forPattern("E dd MMM Y").withLocale(Locale.FRENCH).print(localDate)
-        }
-
-
     }
 
 }

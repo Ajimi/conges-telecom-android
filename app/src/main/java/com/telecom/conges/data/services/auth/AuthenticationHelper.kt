@@ -18,6 +18,10 @@ class AuthenticationHelper(
     val isLoggedIn: Boolean
         get() = user != null
 
+    init {
+        user = loginLocalRepository.user
+    }
+
     suspend fun login(username: String, password: String) = safeApiCall(
         call = { requestLogin(username, password) },
         errorMessage = "Error logging in"

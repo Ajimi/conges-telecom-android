@@ -4,14 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.telecom.conges.R
 import com.telecom.conges.ui.account.AccountActivity
 import com.telecom.conges.ui.calendar.CalendarActivity
 import com.telecom.conges.ui.ferie.FerieDisplayActivity
+import com.telecom.conges.ui.login.LoginActivity
 import com.telecom.conges.ui.request.RequestActivity
-import com.telecom.conges.ui.request.RequestsListActivity
+import com.telecom.conges.ui.request.UserListActivity
 import com.telecom.conges.ui.request.history.HistoriesActivity
 import com.telecom.conges.ui.statistics.StatisticActivity
 import com.telecom.conges.util.Tools
@@ -55,7 +58,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(FerieDisplayActivity.starterIntent(this@MainActivity))
             }
             R.id.demande -> {
-                startActivity(RequestsListActivity.starterIntent(this@MainActivity))
+//                startActivity(RequestsListActivity.starterIntent(this@MainActivity))
+                startActivity(UserListActivity.starterIntent(this@MainActivity))
+
             }
             R.id.calendrier -> {
                 startActivity(CalendarActivity.starterIntent(this@MainActivity))
@@ -66,11 +71,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
+            R.id.action_logout -> {
+                mainViewModel.logout()
+                startActivity(LoginActivity.starterIntent(this))
+                true
+            }
+            else -> false
+        }
+
+
     companion object {
 
         fun starterIntent(context: Context): Intent {
             return Intent(context, MainActivity::class.java).apply {
-                //            putExtra(EXTRA_PAVILION, pavilion)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
         }
     }

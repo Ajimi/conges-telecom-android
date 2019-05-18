@@ -118,12 +118,34 @@ class RequestHelper(
         )
     }
 
+    suspend fun confirmRequest(id: String) = safeApiCall(
+        call = { launchAcceptRequest(id) },
+        errorMessage = "Error logging in"
+    )
+
+
+    private suspend fun launchConfirmRequest(id: String): Result<Request> {
+
+        val response = service.confirmRequest(id).await()
+
+        if (response.isSuccessful) {
+            val body = response.body()
+            body?.let {
+                return Result.Success(it)
+            }
+        }
+
+        return Result.Error(
+            IOException("Error creating request ${response.code()}")
+        )
+    }
+
     suspend fun acceptRequest(id: String) = safeApiCall(
         call = { launchAcceptRequest(id) },
         errorMessage = "Error logging in"
     )
 
-    private suspend fun launchAcceptRequest(id: String): Result<String> {
+    private suspend fun launchAcceptRequest(id: String): Result<Request> {
 
         val response = service.acceptRequest(id).await()
 
@@ -145,7 +167,7 @@ class RequestHelper(
         errorMessage = "Error logging in"
     )
 
-    private suspend fun launchRefuseRequest(id: String): Result<String> {
+    private suspend fun launchRefuseRequest(id: String): Result<Request> {
         val response = service.refuseRequest(id).await()
 
         if (response.isSuccessful) {

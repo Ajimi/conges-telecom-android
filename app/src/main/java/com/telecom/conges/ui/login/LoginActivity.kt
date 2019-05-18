@@ -1,5 +1,7 @@
 package com.telecom.conges.ui.login
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -54,6 +56,15 @@ class LoginActivity : AppCompatActivity() {
 //                hasNetwork = hasNetworkConnection()
                 hasNetwork = true
             )
+        }
+    }
+
+    companion object {
+
+        fun starterIntent(context: Context): Intent {
+            return Intent(context, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
         }
     }
 }

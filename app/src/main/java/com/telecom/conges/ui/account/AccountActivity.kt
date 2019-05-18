@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.telecom.conges.R
 import com.telecom.conges.data.models.User
+import com.telecom.conges.extensions.invisible
 import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
 import com.telecom.conges.ui.request.RequestActivity
+import com.telecom.conges.ui.request.RequestsListActivity
 import com.telecom.conges.ui.request.history.HistoriesActivity
 import com.telecom.conges.util.Tools
 import kotlinx.android.synthetic.main.activity_account.*
@@ -26,9 +28,21 @@ class AccountActivity : AppCompatActivity() {
         initToolbar()
         intent.getStringExtra(EXTRA_USER_ID)?.let { userId ->
             viewModel.loadUserDetails(userId)
+            demande.invisible()
+            history.setOnClickListener {
+                startActivity(RequestsListActivity.starterIntent(this, userId))
+            }
         } ?: run {
             viewModel.user?.let { user ->
                 toast("Loading user details")
+
+                demande.setOnClickListener {
+                    startActivity(RequestActivity.starterIntent(this))
+                }
+
+                history.setOnClickListener {
+                    startActivity(HistoriesActivity.starterIntent(this))
+                }
             } ?: run {
                 toast("Woops Can't show the profile")
                 finish()
@@ -42,13 +56,7 @@ class AccountActivity : AppCompatActivity() {
             })
         })
 
-        history.setOnClickListener {
-            startActivity(HistoriesActivity.starterIntent(this))
-        }
 
-        demande.setOnClickListener {
-            startActivity(RequestActivity.starterIntent(this))
-        }
     }
 
     private fun displayDataFor(user: User) {
@@ -60,7 +68,7 @@ class AccountActivity : AppCompatActivity() {
         rest.text = getRestSoldText(reste)
         val percent = reste.toFloat() / user.solde.toFloat() * 100
         Log.v("Hello", "$percent")
-        crpv.percent = 100 - percent
+        crpv.percent = if (100 - percent == 0f) 0f else 100 - percent
     }
 
     private fun getTotalSoldText(solde: Int): String = "Total: $solde Jours"

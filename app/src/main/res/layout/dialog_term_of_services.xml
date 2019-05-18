@@ -27,6 +27,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Titre de congés"
@@ -74,10 +75,20 @@
             android:padding="@dimen/spacing_mlarge">
 
             <TextView
+                android:id="@+id/fullName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Aymen Ben Salah"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/grey_80"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/raison"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Raison : Maladie"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/grey_80"
                 android:textStyle="bold" />
 
@@ -98,6 +109,7 @@
                     android:padding="@dimen/spacing_large">
 
                     <TextView
+                        android:id="@+id/totalDays"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="5 JOURS"
@@ -106,6 +118,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/soldeEmployee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="SOLDE"
@@ -148,6 +161,7 @@
                         android:padding="@dimen/spacing_xmedium">
 
                         <TextView
+                            android:id="@+id/startingDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="25 APR 2019"
@@ -183,6 +197,7 @@
                         android:padding="@dimen/spacing_xmedium">
 
                         <TextView
+                            android:id="@+id/endingDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30 APR 2019"
@@ -204,6 +219,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/titreConges"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="50dp"

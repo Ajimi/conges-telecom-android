@@ -39,6 +39,9 @@ class LoginViewModel(
         }
     }
 
+    fun isLoggedIn(): Boolean = authHelper.isLoggedIn
+
+
     private fun launchLogin(username: String, password: String) = uiScope.launch(Dispatchers.IO) {
         withContext(Dispatchers.Main) { _dialogState.value = Event(true) }
 

@@ -44,7 +44,7 @@ class RequestActivity : AppCompatActivity() {
             observeUIState(uiModel, {}, {
                 toast(it)
             }, {
-
+                finish()
             })
         })
     }

@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.telecom.conges.R
+import com.telecom.conges.extensions.gone
 import com.telecom.conges.extensions.observeUIState
 import com.telecom.conges.extensions.toast
+import com.telecom.conges.extensions.visible
 import com.telecom.conges.ui.request.RequestViewModel
 import com.telecom.conges.ui.request.detail.RequestDetailActivity
 import com.telecom.conges.util.State
@@ -47,10 +49,19 @@ class HistoriesActivity : AppCompatActivity() {
             observeUIState(uiModel, {}, {
                 toast(it)
             }, {
-                fastItemAdapter.clear()
-                it.map {
-                    fastItemAdapter.add(RequestItem(it))
+                if (it.isEmpty()) {
+                    empty_list.visible()
+                    nested_content.gone()
+                    requestViewModel.empty_list.message.text = "Votre liste des congés est vides"
+                } else {
+                    empty_list.gone()
+                    nested_content.visible()
+                    fastItemAdapter.clear()
+                    it.map {
+                        fastItemAdapter.add(RequestItem(it))
+                    }
                 }
+
             })
         })
 
@@ -109,9 +120,18 @@ class HistoriesActivity : AppCompatActivity() {
 
     companion object {
 
+
+        const val EXTRA_USER_ID = "USER_ID"
+
         fun starterIntent(context: Context): Intent {
             return Intent(context, HistoriesActivity::class.java).apply {
                 //            putExtra(EXTRA_PAVILION, pavilion)
+            }
+        }
+
+        fun starterIntent(context: Context, userId: String): Intent {
+            return Intent(context, HistoriesActivity::class.java).apply {
+                putExtra(EXTRA_USER_ID, userId)
             }
         }
     }

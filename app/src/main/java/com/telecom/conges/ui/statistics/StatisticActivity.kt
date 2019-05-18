@@ -122,8 +122,6 @@ class StatisticActivity : AppCompatActivity() {
             highlightValues(null)
             invalidate()
         }
-
-
     }
 
 
