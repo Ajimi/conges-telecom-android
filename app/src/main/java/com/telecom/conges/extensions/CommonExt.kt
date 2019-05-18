@@ -29,3 +29,12 @@ fun Date.numberOfDays(endDate: Date): Pair<LocalDate, Int> {
     val days = Days.daysBetween(dateStart, dateEnd)
     return Pair(dateStart, days.days)
 }
+
+fun String.getEmptyMessageFromFilter(): String =
+    when (this.toLowerCase()) {
+        "refused" -> "Liste des refusé congés est vides"
+        "waiting" -> "Liste de congés en attente est vides"
+        "accepted" -> "Il n'ya pas aucune congés accepter"
+        else -> "Il n'ya aucune congés"
+    }
+

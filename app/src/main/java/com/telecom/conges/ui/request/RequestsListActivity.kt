@@ -57,7 +57,7 @@ class RequestsListActivity : AppCompatActivity() {
                 if (it.isEmpty()) {
                     empty_list.visible()
                     nested_content.gone()
-                    empty_list.message.text = "Liste des congés est vides"
+                    empty_list.message.text = requestViewModel._currentFiltering.getEmptyMessageFromFilter()
                 } else {
                     empty_list.gone()
                     nested_content.visible()

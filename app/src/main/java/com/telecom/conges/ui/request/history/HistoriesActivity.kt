@@ -13,15 +13,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.telecom.conges.R
-import com.telecom.conges.extensions.gone
-import com.telecom.conges.extensions.observeUIState
-import com.telecom.conges.extensions.toast
-import com.telecom.conges.extensions.visible
+import com.telecom.conges.extensions.*
 import com.telecom.conges.ui.request.RequestViewModel
-import com.telecom.conges.ui.request.detail.RequestDetailActivity
 import com.telecom.conges.util.State
 import com.telecom.conges.util.Tools
 import kotlinx.android.synthetic.main.activity_histories.*
+import kotlinx.android.synthetic.main.no_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -52,7 +49,7 @@ class HistoriesActivity : AppCompatActivity() {
                 if (it.isEmpty()) {
                     empty_list.visible()
                     nested_content.gone()
-                    requestViewModel.empty_list.message.text = "Votre liste des congés est vides"
+                    empty_list.message.text = requestViewModel._currentFiltering.getEmptyMessageFromFilter()
                 } else {
                     empty_list.gone()
                     nested_content.visible()
@@ -66,11 +63,12 @@ class HistoriesActivity : AppCompatActivity() {
         })
 
         fastItemAdapter.withOnClickListener { _, _, item, _ ->
-            startActivity(RequestDetailActivity.starterIntent(this@HistoriesActivity, item.request.id.toString()))
+            //            startActivity(RequestDetailActivity.starterIntent(this@HistoriesActivity, item.request.id.toString()))
             true
         }
 
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_historique, menu)
